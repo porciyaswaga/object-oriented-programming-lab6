@@ -53,15 +53,12 @@ int main() {
     std::cout << "  - Эльф убивает друида и рыцаря" << std::endl;
     std::cout << "  - Друид убивает друидов" << std::endl;
 
-    // Создаем наблюдателей
     ObserverManager observerManager;
     observerManager.addObserver(std::make_shared<ConsoleObserver>());
     observerManager.addObserver(std::make_shared<FileObserver>("log.txt"));
 
-    // Создаем 20 NPC
     std::vector<std::shared_ptr<NPC>> npcs;
     
-    // 7 рыцарей
     npcs.push_back(NPCFactory::createNPC(NPCType::Knight, "Arthur", 50, 50));
     npcs.push_back(NPCFactory::createNPC(NPCType::Knight, "Lancelot", 100, 100));
     npcs.push_back(NPCFactory::createNPC(NPCType::Knight, "Galahad", 150, 80));
@@ -69,8 +66,6 @@ int main() {
     npcs.push_back(NPCFactory::createNPC(NPCType::Knight, "Gawain", 300, 150));
     npcs.push_back(NPCFactory::createNPC(NPCType::Knight, "Tristan", 400, 400));
     npcs.push_back(NPCFactory::createNPC(NPCType::Knight, "Bors", 450, 100));
-
-    // 7 эльфов
     npcs.push_back(NPCFactory::createNPC(NPCType::Elf, "Legolas", 60, 60));
     npcs.push_back(NPCFactory::createNPC(NPCType::Elf, "Thranduil", 120, 90));
     npcs.push_back(NPCFactory::createNPC(NPCType::Elf, "Elrond", 180, 180));
@@ -78,31 +73,24 @@ int main() {
     npcs.push_back(NPCFactory::createNPC(NPCType::Elf, "Arwen", 320, 140));
     npcs.push_back(NPCFactory::createNPC(NPCType::Elf, "Celeborn", 380, 380));
     npcs.push_back(NPCFactory::createNPC(NPCType::Elf, "Glorfindel", 480, 120));
-
-    // 6 друидов (некоторые рядом друг с другом)
     npcs.push_back(NPCFactory::createNPC(NPCType::Druid, "Merlin", 70, 70));
-    npcs.push_back(NPCFactory::createNPC(NPCType::Druid, "Getafix", 90, 85));      // рядом с Merlin
+    npcs.push_back(NPCFactory::createNPC(NPCType::Druid, "Getafix", 90, 85));
     npcs.push_back(NPCFactory::createNPC(NPCType::Druid, "Radagast", 210, 190));
-    npcs.push_back(NPCFactory::createNPC(NPCType::Druid, "Taliesin", 230, 200));   // рядом с Radagast
+    npcs.push_back(NPCFactory::createNPC(NPCType::Druid, "Taliesin", 230, 200));
     npcs.push_back(NPCFactory::createNPC(NPCType::Druid, "Cathbad", 350, 160));
     npcs.push_back(NPCFactory::createNPC(NPCType::Druid, "Amergin", 365, 175));
 
-    // Показываем всех NPC до боя
     std::cout << "\n--- ДО БОЯ ---";
     printNPCs(npcs);
 
-    // Сохраняем в файл
     NPCFactory::saveToFile(npcs, "npcs.txt");
     std::cout << "NPC сохранены в файл npcs.txt" << std::endl;
 
-    // Запускаем бой с дальностью 50 метров
     runBattle(npcs, 50.0, observerManager);
 
-    // Показываем выживших
     std::cout << "--- ПОСЛЕ БОЯ ---";
     printNPCs(npcs);
 
-    // Сохраняем выживших
     NPCFactory::saveToFile(npcs, "survivors.txt");
     std::cout << "Выжившие сохранены в файл survivors.txt" << std::endl;
 
